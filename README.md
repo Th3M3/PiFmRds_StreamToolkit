@@ -2,6 +2,7 @@
 
 Small script(s) select out of some webradio streams and broadcast them with actual title in Radio Text (RT).
 
+<img alt="console screenshot" src="https://raw.githubusercontent.com/Th3M3/PiFmRds_StreamToolkit/master/img/console.JPG" width="70%"/>
 
 
 ```
