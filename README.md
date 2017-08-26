@@ -15,4 +15,4 @@ The Console Output gets piped to `/home/pi/temp.txt`.
 
 #### rds_ctl.sh
 The script will be automatically started from fm.sh.
-It reads cyclic the `/home/pi/temp.txt` file and creats new radio text entrys in  `/home/pi/rds_ctl`
+It reads cyclic the `/home/pi/temp.txt` file and creats new radio text entries in  `/home/pi/rds_ctl`
