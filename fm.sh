@@ -90,5 +90,5 @@ do
   time_stop=$(date +%s)
   timediff=$(( $time_start - $time_stop ))
   
-  echo -n " [${BL}i${NONE}] Process Exited, TIME: "; date; " Program was running for "; date --date @$diff_corr +'%H:%M:%S'
+  echo -n " [${BL}i${NONE}] Process Exited, TIME: "; date; " Program was running for "; date --date @timediff +'%H:%M:%S'
 done
