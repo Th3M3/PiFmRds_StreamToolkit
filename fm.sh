@@ -2,10 +2,10 @@
 #Make sure PiFmRDS is installed. Check github.com/ChristopheJacquet/PiFmRds for Details."
 
 NONE='\033[00m'
-RED='\033[01;31m'
+RD='\033[01;31m'
 BL='\033[01;34m'
-GREEN='\033[01;32m'
-YELLOW='\033[01;33m'
+GN='\033[01;32m'
+YE='\033[01;33m'
 PURPLE='\033[01;35m'
 CYAN='\033[01;36m'
 WHITE='\033[01;37m'
@@ -79,16 +79,19 @@ esac
 while [ 1 ]
 do
   echo
-  echo " [${BL}i${NONE}] Starting FM Radio Station..."
+  echo " [${BL}i${NONE}] ${GN}Starting FM Radio Station..."
+  echo -n "${NONE}"
   time_start=$(date +%s)
-  echo -n "     The time is currently: "; date
-  echo
+  echo -n "     ${YE}The time is currently: "; date
+  echo "${NONE}"
 
   echo >rds_ctl
   mpg123 --buffer 2048 -s "$STATION_URL" 2>temp.txt | sox -v "$VOL" -t raw -b 16 -e signed -c 2 -r 44100 - -t wav - highpass 50 treble +8 | sudo ../PiFmRds/src/pi_fm_rds -pi 1009 -freq "$FREQ" -ps "$STATION_NAME" -rt "$RADIO_TEXT" -ctl rds_ctl -audio -  & ./rds_ctl.sh
 
   time_stop=$(date +%s)
-  timediff=$(( $time_start - $time_stop ))
+  timediff=$(( $time_stop - $time_start -3600 ))
   
-  echo -n " [${BL}i${NONE}] Process Exited, TIME: "; date; " Program was running for "; date --date @timediff +'%H:%M:%S'
+  echo -n " [${BL}i${NONE}] ${RD}Process Exited${NONE}, TIME: "; date;
+  echo -n "     ${YE}Program was running for "; date --date @$timediff +'%H:%M:%S';
+  echo -n "${NONE}"
 done
