@@ -1,5 +1,6 @@
 # PiFmRds_StreamToolkit
-<small>ddd</small>
+###### H6
+Make sure PiFmRds and mpg123 is installed. I am run it on a Raspberry Pi 3.
 
 Small script(s) select out of some webradio streams and broadcast them with actual title in Radio Text (RT).
 
