@@ -15,6 +15,7 @@ It's Console Output gets piped to `/home/pi/temp.txt` for processing the radio t
 I have built in a loop. If `PiFmRds` stops broadcasting, it will restarted automatically.
 Use `Strg + C` to exit.
 
+
 #### rds_ctl.sh
 The script will be automatically started from fm.sh.
 It reads cyclic the `/home/pi/temp.txt` file and creats new radio text entries in  `/home/pi/rds_ctl`
