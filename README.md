@@ -11,6 +11,8 @@ The Stations and the URLs to the mp3 stream are all in `fm.sh`.
 `mpg123` is used to play the web stream, because it also reads the ICY-Meta-Info which is the actual played Title.
 The Console Output gets piped to `/home/pi/temp.txt`.
 
+`sox` is only used to convert the stream to `wav` and to adjust the equalizer and volume.
+
 #### rds_ctl.sh
 The script will be automatically started from fm.sh.
 It reads cyclic the `/home/pi/temp.txt` file and creats new radio text entrys in  `/home/pi/rds_ctl`
