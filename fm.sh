@@ -80,11 +80,15 @@ while [ 1 ]
 do
   echo
   echo " [${BL}i${NONE}] Starting FM Radio Station..."
+  time_start=$(date +%s)
   echo -n "     The time is currently: "; date
   echo
 
   echo >rds_ctl
   mpg123 --buffer 2048 -s "$STATION_URL" 2>temp.txt | sox -v "$VOL" -t raw -b 16 -e signed -c 2 -r 44100 - -t wav - highpass 50 treble +8 | sudo ../PiFmRds/src/pi_fm_rds -pi 1009 -freq "$FREQ" -ps "$STATION_NAME" -rt "$RADIO_TEXT" -ctl rds_ctl -audio -  & ./rds_ctl.sh
+
+  time_stop=$(date +%s)
+  timediff=$(( $time_start - $time_stop ))
   
-  echo -n " [${BL}i${NONE}] Process Exited, TIME: "; date
+  echo -n " [${BL}i${NONE}] Process Exited, TIME: "; date; " Program was running for "; date --date @$diff_corr +'%H:%M:%S'
 done
