@@ -84,7 +84,7 @@ do
   echo
 
   echo >rds_ctl
-  mpg123 --buffer 2048 -s "$STATION_URL" 2>temp.txt | sox -v "$VOL" -t raw -b 16 -e signed -c 2 -r 44100 - -t wav - highpass 50 treble +8 | sudo ../PiFmRds/src/pi_fm_rds -pi 1009 -freq "$FREQ" -ps "$STATION_NAME" -rt "$RADIO_TEXT" -ctl rds_ctl -audio -  & rds_ctl.sh
+  mpg123 --buffer 2048 -s "$STATION_URL" 2>temp.txt | sox -v "$VOL" -t raw -b 16 -e signed -c 2 -r 44100 - -t wav - highpass 50 treble +8 | sudo ../PiFmRds/src/pi_fm_rds -pi 1009 -freq "$FREQ" -ps "$STATION_NAME" -rt "$RADIO_TEXT" -ctl rds_ctl -audio -  & ./rds_ctl.sh
   
   echo -n " [${BL}i${NONE}] Process Exited, TIME: "; date
 done
