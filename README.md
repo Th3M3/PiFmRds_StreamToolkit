@@ -1,5 +1,5 @@
 # PiFmRds_StreamToolkit
-###### Make sure PiFmRds and mpg123 is installed. I am run it on a Raspberry Pi 3.
+###### Make sure <a href="http://github.com/ChristopheJacquet/PiFmRds">PiFmRds</a> and mpg123 is installed. I am run it on a Raspberry Pi 3.
 
 Small script(s) select out of some webradio streams and broadcast them with actual title in Radio Text (RT).
 
