@@ -9,7 +9,7 @@ title=$(awk 'NR==1; END{print}' temp.txt | sed -r 's/[[:alnum:]]+=/\n&/g' | awk 
 
 
 if [ "$title" != "$title_old" ]; then
-
+   if ! [ -z "$title_old" ]; then sleep 12; fi
    title_old=$title
    echo RT $title >>rds_ctl
 fi
