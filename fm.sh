@@ -67,12 +67,12 @@ else
 fi
 
 case $n in
-    1) STATION_URL="http://tuner.m1.fm/charts.mp3";                     STATION_NAME="  M1 FM ";VOL=0.4;RADIO_TEXT="Charts";;
-    2) STATION_URL="http://stream.jam.fm/jamfm-nmr/mp3-128/";           STATION_NAME=" JAM FM ";VOL=0.8;RADIO_TEXT="New Music Radio";;
-    3) STATION_URL="http://onair-ha1.krone.at/kronehit-90sdance.mp3";   STATION_NAME="90 DANCE";VOL=0.8;RADIO_TEXT="Kronehit 90's Dance";;
-    4) STATION_URL="http://cdn.nrjaudio.fm/adwz1/de/33051/mp3_128.mp3"; STATION_NAME=" ENERGY ";VOL=0.6;RADIO_TEXT="Energy Acoustic Hits";;
-    5) STATION_URL="http://stream.sunshine-live.de/edm/mp3-192"         STATION_NAME="SUNSHINE";VOL=0.4;RADIO_TEXT="EDM";;
-    6) STATION_URL="http://tuner.m1.fm/urban.mp3"                       STATION_NAME="  M1 FM ";VOL=0.4;RADIO_TEXT="Urban";;
+    1) STATION_URL="http://tuner.m1.fm/charts.mp3";                     RDS_PS="  M1 FM ";VOL=0.4;RDS_RT="Charts";;
+    2) STATION_URL="http://stream.jam.fm/jamfm-nmr/mp3-128/";           RDS_PS=" JAM FM ";VOL=0.8;RDS_RT="New Music Radio";;
+    3) STATION_URL="http://onair-ha1.krone.at/kronehit-90sdance.mp3";   RDS_PS="90 DANCE";VOL=0.8;RDS_RT="Kronehit 90's Dance";;
+    4) STATION_URL="http://cdn.nrjaudio.fm/adwz1/de/33051/mp3_128.mp3"; RDS_PS=" ENERGY ";VOL=0.6;RDS_RT="Energy Acoustic Hits";;
+    5) STATION_URL="http://stream.sunshine-live.de/edm/mp3-192"         RDS_PS="SUNSHINE";VOL=0.4;RDS_RT="EDM";;
+    6) STATION_URL="http://tuner.m1.fm/urban.mp3"                       RDS_PS="  M1 FM ";VOL=0.4;RDS_RT="Urban";;
     *) invalid option;;
 esac
 
@@ -86,7 +86,7 @@ do
   echo "${NONE}"
 
   echo >rds_ctl
-  mpg123 --buffer 2048 -s "$STATION_URL" 2>temp.txt | sox -v "$VOL" -t raw -b 16 -e signed -c 2 -r 44100 - -t wav - highpass 50 treble +8 | sudo ../PiFmRds/src/pi_fm_rds -pi 1009 -freq "$FREQ" -ps "$STATION_NAME" -rt "$RADIO_TEXT" -ctl rds_ctl -audio -  & ./rds_ctl.sh
+  mpg123 --buffer 2048 -s "$STATION_URL" 2>temp.txt | sox -v "$VOL" -t raw -b 16 -e signed -c 2 -r 44100 - -t wav - highpass 50 treble +8 | sudo ../PiFmRds/src/pi_fm_rds -pi 1009 -freq "$FREQ" -ps "$RDS_PS" -rt "$RDS_RT" -ctl rds_ctl -audio -  & ./rds_ctl.sh
 
   time_stop=$(date +%s)
   timediff=$(( $time_stop - $time_start -3600 ))
