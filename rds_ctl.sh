@@ -7,7 +7,7 @@ EscapeChars() {
    ret=$(echo $ret | sed 's/P!nk/Pink/g')
 
    # characters a, e, i, o, u
-   ret=$(echo $1 | sed 's/[ÀÂ]/A/g' | sed 's/[àâ]/a/g')
+   ret=$(echo $ret | sed 's/[ÀÂ]/A/g' | sed 's/[àâ]/a/g')
    ret=$(echo $ret | sed 's/[Ä]/Ae/g' | sed 's/[ä]/ae/g')
    ret=$(echo $ret | sed 's/[ÉÈÊË]/E/g' | sed 's/[éèêë]/e/g')
    ret=$(echo $ret | sed 's/[ÎÏ]/I/g' | sed 's/[îï]/i/g')
