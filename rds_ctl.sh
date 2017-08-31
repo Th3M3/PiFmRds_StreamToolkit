@@ -3,13 +3,16 @@
 # read from DataPipe and parse meta data
 while read line;
 do
+   # catch Station Name
    if [ "$(echo "$line" | cut -c 1-9)" = 'ICY-NAME:' ];
    then
       station=$line
    fi
 
+   # catch Stream current Title
    if [ "$(echo "$line" | cut -c 1-9)" = 'ICY-META:' ];
    then
+      # parse meta data from line
       title=$(echo $line | sed -r 's/[[:alnum:]]+=/\n&/g' | awk -F= '$1=="StreamTitle"{print $2}' | cut -c 2- | sed 's/..$//')
 
       # replace characters to RDS-Charset
@@ -21,7 +24,7 @@ do
       title=$(echo $title | sed 's/[Ö]/Oe/g' | sed 's/[ö]/oe/g')
       title=$(echo $title | sed 's/[Ü]/Ue/g' | sed 's/[ü]/ue/g')
 
-      # write radio text (or clear if is has been removed)
+      # write to rds control file
       if [ -z "$title" ]; then
          echo RT "${station}" >>rds_ctl
       else
