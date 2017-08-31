@@ -1,8 +1,12 @@
 #!/bin/sh
 
 EscapeChars() {
-#echo In: $1
    # replace characters to valid RDS-Charset
+   # first whole words
+   ret=$(echo $1 | sed 's/$ign/Sign/g')
+   ret=$(echo $ret | sed 's/P!nk/Pink/g')
+
+   # characters a, e, i, o, u
    ret=$(echo $1 | sed 's/[ÀÂ]/A/g' | sed 's/[àâ]/a/g')
    ret=$(echo $ret | sed 's/[Ä]/Ae/g' | sed 's/[ä]/ae/g')
    ret=$(echo $ret | sed 's/[ÉÈÊË]/E/g' | sed 's/[éèêë]/e/g')
@@ -10,15 +14,17 @@ EscapeChars() {
    ret=$(echo $ret | sed 's/[Ø]/O/g' | sed 's/[ø]/o/g')
    ret=$(echo $ret | sed 's/[Ö]/Oe/g' | sed 's/[ö]/oe/g')
    ret=$(echo $ret | sed 's/[Ü]/Ue/g' | sed 's/[ü]/ue/g')
+
+   # special characters
    ret=$(echo $ret | sed 's/[|]/-/g')
-#echo Out1: $ret
+   ret=$(echo $ret | sed 's/[&]/+/g')
+
    # short text it it's too long (remove strings in Brackets)
    if [ "${#ret}" -gt 60 ];
    then
       ret=$(echo $ret | sed 's/[[A-Z a-z]*] //g')
       ret=$(echo $ret | sed 's/([A-Z a-z]*) //g')
       ret=$(echo $ret | sed 's/{[A-Z a-z]*} //g')
-#echo Out2: $ret
    fi
 }
 
