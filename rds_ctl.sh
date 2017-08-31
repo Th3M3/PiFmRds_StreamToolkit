@@ -19,6 +19,7 @@ if [ "$title" != "$title_old" ]; then
    title=$(echo $title | sed 's/[Ä]/Ae/g' | sed 's/[ä]/ae/g')
    title=$(echo $title | sed 's/[ÉÈÊË]/E/g' | sed 's/[éèêë]/e/g')
    title=$(echo $title | sed 's/[ÎÏ]/I/g' | sed 's/[îï]/i/g')
+   title=$(echo $title | sed 's/[Ø]/O/g' | sed 's/[ø]/o/g')
    title=$(echo $title | sed 's/[Ö]/Oe/g' | sed 's/[ö]/oe/g')
    title=$(echo $title | sed 's/[Ü]/Ue/g' | sed 's/[ü]/ue/g')
 
