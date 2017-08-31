@@ -104,8 +104,15 @@ do
   echo -n "     ${YE}The time is currently: "; date
   echo "${NONE}"
 
+  # clear rds_ctl file
   echo >rds_ctl
-  mpg123 --buffer 128 -s "$STATION_URL" 2>DataPipe | sox -v "$VOL" -t raw -b 16 -e signed -c 2 -r "$SAMPLE_RATE" - -t wav - highpass 50 treble +8 | sudo ../PiFmRds/src/pi_fm_rds -pi 1009 -freq "$FREQ" -ps "$RDS_PS" -rt "$RDS_RT" -ctl rds_ctl -audio -  & ./rds_ctl.sh
+  
+  # here we go ...  
+    ./rds_ctl.sh &
+  mpg123 --buffer 128 -s "$STATION_URL" 2>DataPipe |
+  sox -v "$VOL" -t raw -b 16 -e signed -c 2 -r "$SAMPLE_RATE" - -t wav - highpass 50 treble +8 |
+  sudo ../PiFmRds/src/pi_fm_rds -ppm 350 -pi 1009 -freq "$FREQ" -ps "$STATION_NAME" -rt "$RADIO_TEXT" -ctl rds_ctl -audio -
+  
 
   time_stop=$(date +%s)
   timediff=$(( $time_stop - $time_start -3600 ))
