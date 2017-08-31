@@ -14,6 +14,8 @@ if [ "$title" != "$title_old" ]; then
    # if first run, wait 3 sec before output Radio Text
    if [ -z "$title_old" ]; then sleep 3; fi
 
+   title_old=$title
+
    # replace characters to RDS-Charset
    title=$(echo $title | sed 's/[ÀÂ]/A/g' | sed 's/[àâ]/a/g')
    title=$(echo $title | sed 's/[Ä]/Ae/g' | sed 's/[ä]/ae/g')
@@ -29,8 +31,6 @@ if [ "$title" != "$title_old" ]; then
    else
       echo RT "${title}" >>rds_ctl
    fi
-
-   title_old=$title
 
 fi
    sleep 1;
