@@ -23,6 +23,7 @@ do
       title=$(echo $title | sed 's/[Ø]/O/g' | sed 's/[ø]/o/g')
       title=$(echo $title | sed 's/[Ö]/Oe/g' | sed 's/[ö]/oe/g')
       title=$(echo $title | sed 's/[Ü]/Ue/g' | sed 's/[ü]/ue/g')
+      title=$(echo $title | sed 's/[|]/-/g')
 
       # write to rds control file
       if [ -z "$title" ]; then
