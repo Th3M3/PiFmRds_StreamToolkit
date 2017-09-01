@@ -48,7 +48,11 @@ do
 
       # write to rds control file
       if [ -z "$title" ]; then
-         echo RT "${station}" >>rds_ctl
+         if [ "$title" != "$title_old" ];
+         then
+            echo RT "${station}" >>rds_ctl
+            title_old=$title
+         fi
       else
          echo RT "${ret}" >>rds_ctl
       fi
