@@ -19,9 +19,13 @@ EscapeChars() {
    ret=$(echo $ret | sed 's/[|]/-/g')
    ret=$(echo $ret | sed 's/[&]/+/g')
 
-   # short text it it's too long (remove strings in Brackets)
-   if [ "${#ret}" -gt 60 ];
+
+   # shorten text if it's too long (remove strings in Brackets)
+   if [ "${#ret}" -gt 50 ];
    then
+      ret=$(echo $ret | sed 's/ feat. /, /g')
+      ret=$(echo $ret | sed 's/ featuring / feat. /g') | sed 's/Featuring /Feat. /g')
+
       ret=$(echo $ret | sed 's/[[A-Z a-z]*] //g')
       ret=$(echo $ret | sed 's/([A-Z a-z]*) //g')
       ret=$(echo $ret | sed 's/{[A-Z a-z]*} //g')
