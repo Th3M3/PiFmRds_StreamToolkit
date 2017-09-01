@@ -1,7 +1,7 @@
 #!/bin/sh
 
 EscapeChars() {
-   # replace characters to valid RDS-Charset
+   # replace characters to get a valid RDS-Charset
    # first whole words
    ret=$(echo $1 | sed 's/$ign/Sign/g')
    ret=$(echo $ret | sed 's/P!nk/Pink/g')
@@ -19,16 +19,19 @@ EscapeChars() {
    ret=$(echo $ret | sed 's/[|]/-/g')
    ret=$(echo $ret | sed 's/[&]/+/g')
 
-
-   # shorten text if it's too long (remove strings in Brackets)
+   # shorten string if it is too long (short strings)
    if [ "${#ret}" -gt 50 ];
    then
       ret=$(echo $ret | sed 's/ feat. /, /g')
       ret=$(echo $ret | sed 's/ featuring / feat. /g') | sed 's/Featuring /Feat. /g')
+   fi
 
-      ret=$(echo $ret | sed 's/[[A-Z a-z]*] //g')
-      ret=$(echo $ret | sed 's/([A-Z a-z]*) //g')
-      ret=$(echo $ret | sed 's/{[A-Z a-z]*} //g')
+   # shorten more if it is still too long (remove strings in Brackets)
+   if [ "${#ret}" -gt 50 ];
+   then
+      ret=$(echo $ret | sed -e 's/[[A-Z a-z]*] //g')
+      ret=$(echo $ret | sed -e 's/([A-Z a-z]*) //g')
+      ret=$(echo $ret | sed -e 's/{[A-Z a-z]*} //g')
    fi
 }
 
