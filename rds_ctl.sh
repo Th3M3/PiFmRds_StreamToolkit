@@ -40,7 +40,6 @@ do
 
    # catch Stream current Title
    if [ "$(echo "$line" | cut -c 1-9)" = 'ICY-META:' ];
-
    then
       # parse meta data from line
       title=$(echo $line | sed -r 's/[[:alnum:]]+=/\n&/g' | awk -F= '$1=="StreamTitle"{print $2}' | cut -c 2- | sed 's/..$//')
