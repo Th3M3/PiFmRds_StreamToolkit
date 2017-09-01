@@ -96,6 +96,10 @@ esac
 if [ -f "DataPipe" ]; then rm DataPipe; fi
 $(mkfifo DataPipe)
 
+#create rds_ctl Pipe
+if [ -f "rds_ctl" ]; then rm rds_ctl; fi
+$(mkfifo rds_ctl)
+
 while [ 1 ]
 do
   echo
