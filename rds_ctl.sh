@@ -31,14 +31,14 @@ EscapeChars() {
 # read from DataPipe and parse meta data
 while read line;
 do
-   # catch Station Name
+   # catch Stream's Station Name
    if [ "$(echo "$line" | cut -c 1-9)" = 'ICY-NAME:' ];
    then
       EscapeChars "$(echo $line | cut -c11-)"
       station=$ret
    fi
 
-   # catch Stream's current Title
+   # catch Stream's Current Title
    if [ "$(echo "$line" | cut -c 1-9)" = 'ICY-META:' ];
    then
       # parse meta data from line
