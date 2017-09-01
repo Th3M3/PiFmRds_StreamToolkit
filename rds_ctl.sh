@@ -22,8 +22,7 @@ EscapeChars() {
    # shorten string if it is too long (short strings)
    if [ "${#ret}" -gt 50 ];
    then
-      ret=$(echo $ret | sed 's/ feat. /, /g')
-      ret=$(echo $ret | sed 's/ featuring / feat. /g') | sed 's/Featuring /Feat. /g')
+      ret=$(echo $ret | sed 's/ feat. /, /g' | sed 's/ featuring / feat. /g' | sed 's/Featuring /Feat. /g')
    fi
 
    # shorten more if it is still too long (remove strings in Brackets)
