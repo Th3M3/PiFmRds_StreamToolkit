@@ -7,12 +7,13 @@ EscapeChars() {
    ret=$(echo $ret | sed 's/P!nk/Pink/g')
 
    # characters a, e, i, o, u
-   ret=$(echo $ret | sed 's/[ÀÂ]/A/g' | sed 's/[àâ]/a/g')
+   ret=$(echo $ret | sed 's/[ÀÁÂ]/A/g' | sed 's/[àáâ]/a/g')
    ret=$(echo $ret | sed 's/[Ä]/Ae/g' | sed 's/[ä]/ae/g')
    ret=$(echo $ret | sed 's/[ÉÈÊË]/E/g' | sed 's/[éèêë]/e/g')
-   ret=$(echo $ret | sed 's/[ÎÏ]/I/g' | sed 's/[îï]/i/g')
-   ret=$(echo $ret | sed 's/[Ø]/O/g' | sed 's/[ø]/o/g')
+   ret=$(echo $ret | sed 's/[ÌÍÎÏ]/I/g' | sed 's/[ìíîï]/i/g')
+   ret=$(echo $ret | sed 's/[ÒÓØ]/O/g' | sed 's/[òóø]/o/g')
    ret=$(echo $ret | sed 's/[Ö]/Oe/g' | sed 's/[ö]/oe/g')
+   ret=$(echo $ret | sed 's/[ÙÚ]/U/g' | sed 's/[ùú]/ue/g')
    ret=$(echo $ret | sed 's/[Ü]/Ue/g' | sed 's/[ü]/ue/g')
 
    # special characters
