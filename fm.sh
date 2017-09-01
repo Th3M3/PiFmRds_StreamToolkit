@@ -93,6 +93,7 @@ case $n in
 esac
 
 #create DataPipe for Meta Data Communikation
+if [ -f "DataPipe" ]; then rm DataPipe; fi
 $(mkfifo DataPipe)
 
 while [ 1 ]
