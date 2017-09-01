@@ -55,7 +55,7 @@ do
       EscapeChars "$title"
 
       # use Station Name if there is currently no Title Info
-      if [ -z "$title" ];
+      if [ -z "$title" -a "$title"!=" " ];
       then
          title=$station
       fi
