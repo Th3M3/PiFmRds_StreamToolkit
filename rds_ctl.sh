@@ -38,7 +38,7 @@ do
       station=$ret
    fi
 
-   # catch Stream current Title
+   # catch Stream's current Title
    if [ "$(echo "$line" | cut -c 1-9)" = 'ICY-META:' ];
    then
       # parse meta data from line
@@ -47,14 +47,17 @@ do
       EscapeChars "$title"
 
       # write to rds control file
-      if [ -z "$title" ]; then
+      if [ -z "$title" ];
+      then
+         # write Station Name if there is currently no Title Info
+         echo RT "${station}" >>rds_ctl
+      else
+         # write Title Info if it has changed
          if [ "$title" != "$title_old" ];
          then
-            echo RT "${station}" >>rds_ctl
+            echo RT "${ret}" >>rds_ctl
             title_old=$title
          fi
-      else
-         echo RT "${ret}" >>rds_ctl
       fi
    fi
 done < DataPipe
