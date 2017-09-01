@@ -93,11 +93,11 @@ case $n in
 esac
 
 #create DataPipe for Meta Data Communikation
-if [ -f "DataPipe" ]; then rm DataPipe; fi
+if [ -p "DataPipe" ]; then rm DataPipe; fi
 $(mkfifo DataPipe)
 
 #create rds_ctl Pipe
-if [ -f "rds_ctl" ]; then rm rds_ctl; fi
+if [ -p "rds_ctl" ]; then rm rds_ctl; fi
 $(mkfifo rds_ctl)
 
 while [ 1 ]
