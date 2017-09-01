@@ -23,15 +23,16 @@ EscapeChars() {
    # shorten string if it is too long (short strings)
    if [ "${#ret}" -gt 50 ];
    then
-      ret=$(echo $ret | sed 's/ feat. /, /g' | sed 's/ featuring / feat. /g' | sed 's/Featuring /Feat. /g')
+      ret=$(echo $ret | sed 's/ feat. /, /g')
+      ret=$(echo $ret | sed 's/ featuring / feat. /g' | sed 's/Featuring /Feat. /g')
    fi
 
    # shorten more if it is still too long (remove strings in Brackets)
    if [ "${#ret}" -gt 50 ];
    then
-      ret=$(echo $ret | sed -e 's/[[A-Z a-z]*] //g')
-      ret=$(echo $ret | sed -e 's/([A-Z a-z]*) //g')
-      ret=$(echo $ret | sed -e 's/{[A-Z a-z]*} //g')
+      ret=$(echo $ret | sed 's/ [[A-Z a-z]*]//g')
+      ret=$(echo $ret | sed 's/ ([A-Z a-z]*)//g')
+      ret=$(echo $ret | sed 's/ {[A-Z a-z]*}//g')
    fi
 }
 
@@ -53,18 +54,17 @@ do
 
       EscapeChars "$title"
 
-      # write to rds control file
+      # use Station Name if there is currently no Title Info
       if [ -z "$title" ];
       then
-         # write Station Name if there is currently no Title Info
-         echo RT "${station}" >>rds_ctl
-      else
-         # write Title Info if it has changed
-         if [ "$title" != "$title_old" ];
-         then
-            echo RT "${ret}" >>rds_ctl
-            title_old=$title
-         fi
+         title=$station
+      fi
+
+      # write Title Info if it has changed
+      if [ "$title" != "$title_old" ];
+      then
+         echo RT "${ret}" >>rds_ctl
+         title_old=$title
       fi
    fi
 done < DataPipe
