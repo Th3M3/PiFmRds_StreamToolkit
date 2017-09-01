@@ -46,7 +46,6 @@ do
 
       EscapeChars "$title"
 
-
       # write to rds control file
       if [ -z "$title" ]; then
          echo RT "${station}" >>rds_ctl
