@@ -87,9 +87,9 @@ case $n in
         STATION_NAME="  M1 FM "; VOL=0.4; SAMPLE_RATE=44100; RADIO_TEXT="Urban";;
 
     7) STATION_URL="http://addrad.io/4WRKxG";
-        STATION_NAME=" DASDING"; VOL=0.9; SAMPLE_RATE=48000; RADIO_TEXT="LIVE";;
+        STATION_NAME="DASDING"; VOL=0.9; SAMPLE_RATE=48000; RADIO_TEXT="LIVE";;
 
-*) invalid option;;
+    *) invalid option;;
 esac
 
 #create DataPipe for Meta Data Communikation
@@ -109,19 +109,17 @@ do
   echo -n "     ${YE}The time is currently: "; date
   echo "${NONE}"
 
-  # clear rds_ctl file
-  echo >rds_ctl
-  
-  # here we go ...  
-    ./rds_ctl.sh &
+  #clear rds_ctl file
+#  echo >rds_ctl
+
+  ./rds_ctl.sh &
   mpg123 --buffer 128 -s "$STATION_URL" 2>DataPipe |
   sox -v "$VOL" -t raw -b 16 -e signed -c 2 -r "$SAMPLE_RATE" - -t wav - highpass 50 treble +8 |
-  sudo ../PiFmRds/src/pi_fm_rds -ppm 375 -pi 1009 -freq "$FREQ" -ps "$STATION_NAME" -rt "$RADIO_TEXT" -ctl rds_ctl -audio -
-  
+  sudo ../PiFmRds/src/pi_fm_rds -ppm 400 -pi 1009 -freq "$FREQ" -ps "$STATION_NAME" -rt "$RADIO_TEXT" -ctl rds_ctl -audio -
 
   time_stop=$(date +%s)
-  timediff=$(( $time_stop - $time_start -3600 ))
-  
+  timediff=$(( $time_stop - $time_start - 3600 ))
+
   echo -n " [${BL}i${NONE}] ${RD}Process Exited${NONE}, TIME: "; date;
   echo -n "     ${YE}Program was running for "; date --date @$timediff +'%H:%M:%S';
   echo -n "${NONE}"
