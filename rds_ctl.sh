@@ -53,7 +53,7 @@ do
       title=$(echo "$line" | sed -r 's/[[:alnum:]]+=/\n&/g' | awk -F= '$1=="StreamTitle"{print $2}' | cut -c 2- | sed 's/..$//')
 
       # use Station Name if there is currently no Title Info
-      if [ -z "$title" ];
+      if [ -z $title ];
       then
          title="$station"
       fi
