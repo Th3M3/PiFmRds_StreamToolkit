@@ -1,6 +1,7 @@
 #!/bin/sh
 
 EscapeChars() {
+#echo DEBUG: EscapeChars In: $1
    # replace characters to get a valid RDS-Charset
    # first whole words
    ret=$(echo $1 | sed 's/$ign/Sign/g')
@@ -35,6 +36,7 @@ EscapeChars() {
       ret=$(echo $ret | sed 's/ ([A-Z a-z]*)//g')
       ret=$(echo $ret | sed 's/ {[A-Z a-z]*}//g')
    fi
+#echo DEBUG: EscapeChars Out: $ret
 }
 
 # read from DataPipe and parse meta data
@@ -44,18 +46,22 @@ do
    if [ "$(echo "$line" | cut -c 1-9)" = 'ICY-NAME:' ];
    then
       station=$(echo $line | cut -c11-)
+#echo DEBUG: Station Name: --$station--
    fi
 
    # catch Stream's Current Title
    if [ "$(echo "$line" | cut -c 1-9)" = 'ICY-META:' ];
    then
       # parse meta data from line
-      title=$(echo "$line" | sed -r 's/[[:alnum:]]+=/\n&/g' | awk -F= '$1=="StreamTitle"{print $2}' | cut -c 2- | sed 's/..$//')
-
+#echo DEBUG: ---
+#echo DEBUG: ICY-META-Line: "$line"
+      title="$(echo "$line" | sed -r 's/[[:alnum:]]+=/\n&/g' | awk -F= '$1=="StreamTitle"{print $2}' | cut -c 2- | sed 's/..$//')"
+#echo DEBUG: Title: "$title"
       # use Station Name if there is currently no Title Info
       if [ -z "$title" ] || [ "$title" = " " ];
       then
          title="$station"
+#echo DEBUG: Title is empty. Set it to station name --$station--
       fi
 
       # write Title Info if it has changed
