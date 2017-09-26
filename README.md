@@ -29,5 +29,21 @@ It reads the `/home/pi/temp.txt` file in cycle and creats new radio text entries
 
 <br>
 
-###### Make sure <a href="http://github.com/ChristopheJacquet/PiFmRds">PiFmRds</a> and mpg123 are installed. I have tested it on Raspberry Pi 3.
-###### For transmitting in better sound quality I have also changed the low-pass-cutoff-frequency in PiFmRds to 20kHz.
+
+Note:
+<br>
+Make sure <a href="http://github.com/ChristopheJacquet/PiFmRds">PiFmRds</a> and mpg123 are installed. I have tested it on Raspberry Pi 3.
+<br>For transmitting in better sound quality I've made some changes to PiFmRds:
+<br>
+<code>fm_mpx.c:</code>
+<br>
+<code>mpx_buffer[i] = mpx_buffer[i] + <b>15</b> * out_mono; 
+</code><br>
+<code>mpx_buffer[i] += <b>60</b> * carrier_38[phase_38] * out_stereo + <b>0.9</b> * carrier_19[phase_19];
+</code>
+<br>
+<br>
+<code> pi_fm_rds.c:</code>
+<br>
+<code>#define DEVIATION        <b>50</b>
+</code>
