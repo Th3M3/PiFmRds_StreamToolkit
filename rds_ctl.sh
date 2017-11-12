@@ -7,7 +7,7 @@ EscapeChars() {
    ret=$(echo $1 | sed 's/$ign/Sign/g')
    ret=$(echo $ret | sed 's/P!nk/Pink/g')
 
-   # characters a, e, i, o, u
+   # characters a, e, i, o, u, n
    ret=$(echo $ret | sed 's/[ÀÁÂ]/A/g' | sed 's/[àáâ]/a/g')
    ret=$(echo $ret | sed 's/[Ä]/Ae/g' | sed 's/[ä]/ae/g')
    ret=$(echo $ret | sed 's/[ÉÈÊË]/E/g' | sed 's/[éèêë]/e/g')
@@ -16,6 +16,8 @@ EscapeChars() {
    ret=$(echo $ret | sed 's/[Ö]/Oe/g' | sed 's/[ö]/oe/g')
    ret=$(echo $ret | sed 's/[ÙÚ]/U/g' | sed 's/[ùú]/ue/g')
    ret=$(echo $ret | sed 's/[Ü]/Ue/g' | sed 's/[ü]/ue/g')
+   ret=$(echo $ret | sed 's/[Ñ]/N/g' | sed 's/[ñ]/n/g')
+
 
    # special characters
    ret=$(echo $ret | sed 's/[|]/-/g')
@@ -25,17 +27,24 @@ EscapeChars() {
    # try to shorten string if it is too long (short strings)
    if [ ${#ret} -gt 50 ];
    then
-      ret=$(echo $ret | sed 's/ feat. /; /g')
+      #ret=$(echo $ret | sed 's/ feat. /; /g')
       ret=$(echo $ret | sed 's/ featuring / feat. /g' | sed 's/Featuring /Feat. /g')
    fi
 
    # try to shorten more if it is still too long (remove strings in Brackets)
    if [ ${#ret} -gt 50 ];
    then
-      ret=$(echo $ret | sed 's/ [[A-Z a-z]*]//g')
-      ret=$(echo $ret | sed 's/ ([A-Z a-z]*)//g')
-      ret=$(echo $ret | sed 's/ {[A-Z a-z]*}//g')
+      ret=$(echo $ret | sed 's/ [[A-Z a-z $!?%&+*]*]//g')
+      ret=$(echo $ret | sed 's/ ([A-Z a-z $!?%&+*]*)//g')
+      ret=$(echo $ret | sed 's/ {[A-Z a-z $!?%&+*]*}//g')
    fi
+
+   # try to shorten more if it is still too long (remove feat.-String)
+   if [ ${#ret} -gt 50 ];
+   then
+      ret=$(echo $ret | sed 's/feat.* - /- /')
+   fi
+
 #echo DEBUG: EscapeChars Out: $ret
 }
 
