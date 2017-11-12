@@ -1,5 +1,5 @@
 #!/bin/sh
-#Make sure PiFmRDS is installed. Check github.com/ChristopheJacquet/PiFmRds for Details."
+# Make sure PiFmRDS is installed. Check github.com/ChristopheJacquet/PiFmRds for Details."
 
 NONE='\033[00m'
 RD='\033[01;31m'
@@ -50,7 +50,7 @@ then
   echo " ${UNDERLINE}5${X_UNDERLINE}: Sunshine EDM"
   echo " ${UNDERLINE}6${X_UNDERLINE}: M1 FM Urban"
   echo " ${UNDERLINE}7${X_UNDERLINE}: DasDing Live Top40"
-
+  echo " ${UNDERLINE}8${X_UNDERLINE}: Radio Monster - TopHits"
   echo " ${NONE}"
   echo -n " >"
 fi
@@ -69,36 +69,48 @@ fi
 
 case $n in
     1) STATION_URL="http://tuner.m1.fm/charts.mp3";
-        STATION_NAME="  M1 FM "; VOL=0.4; SAMPLE_RATE=44100; RADIO_TEXT="Charts";;
+        STATION_NAME="  M1 FM "; VOL=1; SAMPLE_RATE=44100; RADIO_TEXT="Charts";;
 
     2) STATION_URL="http://stream.jam.fm/jamfm-nmr/mp3-128/";
-        STATION_NAME=" JAM FM "; VOL=0.8; SAMPLE_RATE=44100; RADIO_TEXT="New Music Radio";;
+        STATION_NAME=" JAM FM "; VOL=1; SAMPLE_RATE=44100; RADIO_TEXT="New Music Radio";;
 
     3) STATION_URL="http://onair-ha1.krone.at/kronehit-90sdance.mp3";
-        STATION_NAME="90 DANCE"; VOL=0.8; SAMPLE_RATE=44100; RADIO_TEXT="Kronehit 90's Dance";;
+        STATION_NAME="90 DANCE"; VOL=1; SAMPLE_RATE=44100; RADIO_TEXT="Kronehit 90's Dance";;
 
     4) STATION_URL="http://cdn.nrjaudio.fm/adwz1/de/33051/mp3_128.mp3";
-        STATION_NAME=" ENERGY "; VOL=0.6; SAMPLE_RATE=44100; RADIO_TEXT="Energy Acoustic Hits";;
+        STATION_NAME=" ENERGY "; VOL=1; SAMPLE_RATE=44100; RADIO_TEXT="Energy Acoustic Hits";;
 
     5) STATION_URL="http://stream.sunshine-live.de/edm/mp3-192";
-        STATION_NAME="SUNSHINE"; VOL=0.4; SAMPLE_RATE=44100; RADIO_TEXT="EDM";;
+        STATION_NAME="SUNSHINE"; VOL=1; SAMPLE_RATE=44100; RADIO_TEXT="EDM";;
 
     6) STATION_URL="http://tuner.m1.fm/urban.mp3";
-        STATION_NAME="  M1 FM "; VOL=0.4; SAMPLE_RATE=44100; RADIO_TEXT="Urban";;
+        STATION_NAME="  M1 FM "; VOL=1; SAMPLE_RATE=44100; RADIO_TEXT="Urban";;
 
     7) STATION_URL="http://addrad.io/4WRKxG";
-        STATION_NAME="DASDING"; VOL=0.9; SAMPLE_RATE=48000; RADIO_TEXT="LIVE";;
+        STATION_NAME="DASDING"; VOL=1; SAMPLE_RATE=48000; RADIO_TEXT="LIVE";;
+
+    8) STATION_URL="http://tophits.radiomonster.fm/320.mp3";
+        STATION_NAME=" MONSTER"; VOL=1; SAMPLE_RATE=44100; RADIO_TEXT=" - ";;
+
+    9) STATION_URL="http://addrad.io/4WRLMf";
+        STATION_NAME="  SWR3  "; VOL=1; SAMPLE_RATE=48000; RADIO_TEXT=" - ";;
+
+    x) STATION_URL="http://users.skynet.be/fa046054/home/P22/track14.mp3";
+        STATION_NAME="TEST"; VOL=0.4; SAMPLE_RATE=44100; RADIO_TEXT="TEST";;
 
     *) invalid option;;
 esac
 
-#create DataPipe for Meta Data Communikation
+# create DataPipe for Meta Data Communikation
 if [ -p "DataPipe" ]; then rm DataPipe; fi
 $(mkfifo DataPipe)
 
-#create rds_ctl Pipe
+# create rds_ctl Pipe
 if [ -p "rds_ctl" ]; then rm rds_ctl; fi
 $(mkfifo rds_ctl)
+
+# clear rds_ctl file
+#  echo >rds_ctl
 
 while [ 1 ]
 do
@@ -109,17 +121,14 @@ do
   echo -n "     ${YE}The time is currently: "; date
   echo "${NONE}"
 
-  #clear rds_ctl file
-#  echo >rds_ctl
-
   ./rds_ctl.sh &
   mpg123 --buffer 128 -s "$STATION_URL" 2>DataPipe |
-  sox -v "$VOL" -t raw -b 16 -e signed -c 2 -r "$SAMPLE_RATE" - -t wav - highpass 50 treble +8 |
-  sudo ../PiFmRds/src/pi_fm_rds -ppm 400 -pi 1009 -freq "$FREQ" -ps "$STATION_NAME" -rt "$RADIO_TEXT" -ctl rds_ctl -audio -
+  sox -v "$VOL" -t raw -b 16 -e signed -c 2 -r "$SAMPLE_RATE" - -t wav - firfit ./PreEmphasis.ff gain -15 |
+  sudo ../PiFmRds/src/pi_fm_rds -ppm 330 -pi 1009 -freq "$FREQ" -ps "$STATION_NAME" -rt "$RADIO_TEXT" -ctl rds_ctl -audio -
+
 
   time_stop=$(date +%s)
   timediff=$(( $time_stop - $time_start - 3600 ))
-
   echo -n " [${BL}i${NONE}] ${RD}Process Exited${NONE}, TIME: "; date;
   echo -n "     ${YE}Program was running for "; date --date @$timediff +'%H:%M:%S';
   echo -n "${NONE}"
